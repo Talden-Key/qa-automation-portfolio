@@ -19,5 +19,29 @@ test.describe('Cart', () => {
             await productGridFallback.click();
         }
 
+        // Step 2: On PDP, click "Add to cart"
+        // Shopify themes usually have a button name "Add to cart"
+        const addToCart = page.getByRole('button', {name: /add to cart/i });
+        await expect(addToCart).toBeVisible();
+        await addToCart.click();
+
+        // Step 3: Open cart.
+        // Some themes open a drawer; some navigate to /cart.
+        // we try: click a cart link/button, then accept either drawer or /cart.
+        const cartTriggers = [
+            page.getByRole('link', { name: /cart/i }),
+            page.getByRole('button', { name: /cart/i }),
+        ];
+
+        let clicked = false;
+        for (const trigger of cartTriggers) {
+            if (await trigger.first().isVisible().catch(() => false)){
+                await trigger.first().click();
+                clicked = true;
+                break;
+            }
+        }
+        expect(clicked, 'Could not find a visible cart link/button to open cart.').toBeTruthy();
+
     })
 })
