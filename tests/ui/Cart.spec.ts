@@ -43,5 +43,26 @@ test.describe('Cart', () => {
         }
         expect(clicked, 'Could not find a visible cart link/button to open cart.').toBeTruthy();
 
+        // Step 4: Verify item is present in cart UI
+        // If we used the preferred name, assert it; otherwise assert cart is non-empty.
+        if (await page.getByTestId(new RegExp(preferredProductName, 'i')).first().isVisible().catch(() => false)) {
+            await expect(page.getByText(new RegExp(preferredProductName, 'i')).first()).toBeVisible();
+        } else {
+            // Generic non-empty cart signals (themes vary)
+            const nonEmptySignals = [
+                page.getByTestId(/subtotal/i),
+                page.getByRole('button', {name: /checkout/i }),
+                page.getByText(/remove/i),
+            ];
+
+            let nonEmpty = false;
+            for (const locator of nonEmptySignals) {
+                if (await locator.first().isVisible().catch(() => false)) {
+                    nonEmpty = true;
+                    break;
+                }
+            }
+            expect(nonEmpty, 'Expected cart to show non-empty state (subtotal/chekout/remove).').toBeTruthy();
+        }
     })
 })
