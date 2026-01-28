@@ -46,6 +46,20 @@ test.describe('Auth - negative cases', () => {
             errorVisible,
             'Expected an error message or validation feedback after invalid login attempt.'
         ).toBeTruthy();
+
+        // Step 4: Verify  user remains unauthenticated
+        // Strong signal: "Log In" link still visible
+        await expect(page.getByRole('link', { name: /log in/i })).toBeVisible();
+
+        // Weak but useful signal: no "Account", "Log out", or user menu
+        const authenticatedSignals = [
+            page.getByRole('link', { name: /account/i }),
+            page.getByRole('link', { name: /log out/i }),
+        ];
+
+        for (const locator of authenticatedSignals) {
+            await expect(locator).not.toBeVisible();
+        }
     }
     )
 })
