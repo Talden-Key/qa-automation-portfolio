@@ -43,7 +43,7 @@ test.describe("Cart", () => {
     await expect(firstProduct).toBeVisible();
     await firstProduct.click();
 
-    // ✅ Capture productPath AFTER navigating to the product page
+    // Capture productPath AFTER navigating to the product page
     const productPath = new URL(page.url()).pathname;
     expect(productPath).toMatch(/^\/products\//);
 
@@ -89,7 +89,7 @@ test.describe("Cart", () => {
 
     await expect(page.getByText(/check out/i).first()).toHaveCount(0);
 
-    // ✅ Assert link to product is gone (more reliable than productName text)
+    // Assert link to product is gone (more reliable than productName text)
     await expect(page.locator(`a[href^="${productPath}"]`)).toHaveCount(0);
 
     const emptySignals = [
