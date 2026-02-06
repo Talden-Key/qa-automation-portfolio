@@ -38,4 +38,26 @@ test.describe("Auth (basic)", () => {
     await expect(page.getByRole("link", { name: /log out/i })).toHaveCount(0);
     await expect(page.getByRole("link", { name: /account/i })).toHaveCount(0);
   });
+  test('Register: create account page renders required fields', async ({page})=> {
+    await page.goto('/account/register');
+
+    // Open register/create account
+    await expect(page).toHaveURL(/\/account\/register/i);
+
+    // Required fields vary by theme, but Shopify register commonly includes:
+    // FIrst name, Last name, Email, password
+    // we'll assert the presence of core inputs by accessible name.
+    const firstName = page.locator('input[name="customer[first_name]"]');
+    const lastName  = page.locator('input[name="customer[last_name]"]');
+    const email     = page.locator('input[name="customer[email]"]');
+    const password  = page.locator('input[name="customer[password]"]');
+    
+    await expect(firstName).toBeVisible();
+    await expect(lastName).toBeVisible();
+    await expect(email).toBeVisible();
+    await expect(password).toBeVisible();
+
+    // And a submit button exists (Create / Register / Sign up)
+    await expect(page.getByRole('button', { name: /create|register|sign up/i})).toBeVisible();
+  })
 });
