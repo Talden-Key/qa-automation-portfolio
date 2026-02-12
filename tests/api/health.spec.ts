@@ -20,4 +20,16 @@ test.describe('API Health Checks', () => {
         const body = await response.text();
         expect(body).toContain('<html');
     })
+    test('GET non-existent page returns 404', async ({ request }) => {
+        const response = await request.get('/this-page-should-not-exist-qa-test');
+
+        expect(
+            response.status(),
+            'Expected non-existent page to return HTTP 404.'
+        ).toBe(404);
+        
+        // Sanity-check body conatin typical 404 signals
+        const body = await response.text();
+        expect(body.toLowerCase()).toContain('404');
+    })
 })
