@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Auth (basic)", () => {
-  test("Login: invalid credentials shows error and user remains unauthenticated", async ({
+  test("@Login: invalid credentials shows error and user remains unauthenticated", async ({
     page,
   }) => {
     await page.goto("/");
@@ -38,7 +38,7 @@ test.describe("Auth (basic)", () => {
     await expect(page.getByRole("link", { name: /log out/i })).toHaveCount(0);
     await expect(page.getByRole("link", { name: /account/i })).toHaveCount(0);
   });
-  test('Register: create account page renders required fields', async ({page})=> {
+  test('@Register: create account page renders required fields', async ({page})=> {
     await page.goto('/account/register');
 
     // Open register/create account

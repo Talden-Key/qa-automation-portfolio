@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Checkout', () => {
-  test('start checkout from cart; verify checkout flow initiates (do not submit payment)', async ({ page }) => {
+  test('@start checkout from cart; verify checkout flow initiates (do not submit payment)', async ({ page }) => {
     await page.goto('/');
 
     // 1) Go to catalog (reliable entry point)

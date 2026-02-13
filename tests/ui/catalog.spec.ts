@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Catalog', () => {
-  test('catalog page opens and product listing renders', async ({ page }) => {
+  test('@catalog page opens and product listing renders', async ({ page }) => {
     await page.goto('/');
 
     await page.getByRole('link', { name: 'Catalog' }).click();

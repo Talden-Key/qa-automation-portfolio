@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Auth – negative cases', () => {
-  test('login with invalid credentials shows an error and remains unauthenticated', async ({ page }) => {
+  test('@login with invalid credentials shows an error and remains unauthenticated', async ({ page }) => {
     await page.goto('/');
 
     // Go to login

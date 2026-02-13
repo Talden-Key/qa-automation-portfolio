@@ -1,7 +1,7 @@
 import { test, expect} from '@playwright/test';
 
 test.describe('Search', () => {
-    test('search for "jacket" shows results or a rendered results state', async ({page}) => {
+    test('@search for "jacket" shows results or a rendered results state', async ({page}) => {
         await page.goto('/');
 
         // Step 1: Navigate to search page (Shopify invariant: /search)

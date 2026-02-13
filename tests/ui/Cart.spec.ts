@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Cart", () => {
-  test("add a product to cart and verify it appears", async ({ page }) => {
+  test("@add a product to cart and verify it appears", async ({ page }) => {
     await page.goto("/");
 
     //  Go to catalog first (more reliable than homepage for Shopify themes)
@@ -31,7 +31,7 @@ test.describe("Cart", () => {
   });
 
   // Cart remove product
-  test("remove product; cart becomes empty and checkout is not available", async ({
+  test("@remove product; cart becomes empty and checkout is not available", async ({
     page,
   }) => {
     await page.goto("/");
