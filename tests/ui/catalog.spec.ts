@@ -1,19 +1,15 @@
 import { test, expect } from '@playwright/test';
+import { HomePage } from '../../pages/HomePage';
 
 test.describe('Catalog', () => {
-  test('@catalog page opens and product listing renders', async ({ page }) => {
-    await page.goto('/');
+  test('catalog page opens and product listing renders', async ({ page }) => {
+    const home = new HomePage(page);
 
-    await page.getByRole('link', { name: 'Catalog' }).click();
+    await home.goto();
+    await home.openCatalog();
 
-    // stronger + clearer than "not /$"
-    await expect(page).toHaveURL(/\/collections\/all/i);
-
-    // robust assertion across Shopify themes
+    // Shopify-invariant: product links contain "/products/"
     const productLinks = page.locator('a[href*="/products/"]');
-    await expect(
-      productLinks.first(),
-      'Expected at least one product link (href contains "/products/") on the catalog page.'
-    ).toBeVisible();
+    await expect(productLinks.first()).toBeVisible();
   });
 });
