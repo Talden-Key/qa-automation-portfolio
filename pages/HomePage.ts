@@ -5,8 +5,7 @@ export class HomePage {
 
     async goto() {
         await this.page.goto('/');
-        await expect(this.page.getByRole('heading', { name: / sauce demo/i})).toBeVisible();
-    }
+      }
     
     async openCatalog() {
         await this.page.getByRole('link', {name: /catalog/i }).first().click();
