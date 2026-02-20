@@ -22,4 +22,13 @@ test.describe("Shopify Ajax Cart API", () => {
         expect(cart.item_count).toBe(0);
         expect(cart.items.length).toBe(0);
     });
+
+    test("GET /collections/all/products.json returns products array", async ({ request }) => {
+        const res = await request.get("/collections/all/products.json?limit=10");
+        expect(res.status()).toBe(200);
+
+        const json = await res.json();
+        expect(json).toHaveProperty("products");
+        expect(Array.isArray(json.products)).toBeTruthy;
+    })
 })
