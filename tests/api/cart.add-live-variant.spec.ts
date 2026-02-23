@@ -20,5 +20,12 @@ test.describe("Shopify Ajax Cart API = add item via live variant id", () => {
 
         const variantId: number = firstProduct.variants[0].id;
         expect(typeof variantId, "Expected variant id to be number ").toBe("number");
+
+        const addRes = await request.post("/cart/add.js", {
+            form: {
+                id: String(variantId),
+                quanity: "1",
+            }
+        } )
     })
 })
