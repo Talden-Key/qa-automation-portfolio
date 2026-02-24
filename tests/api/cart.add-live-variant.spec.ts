@@ -27,5 +27,22 @@ test.describe("Shopify Ajax Cart API = add item via live variant id", () => {
                 quanity: "1",
             }
         } )
+
+        expect([200, 302]).toContain(addRes.status());
+
+        const cartRes = await request.get("/cart.js");
+        expect(cartRes.status(), "Expected /cart.js to return 200").toBe(200);
+
+        const cart = await cartRes.json();
+        expect(cart).toHaveProperty("items");
+        expect(cart).toHaveProperty("item_count");
+        expect(Array.isArray(cart.items)).toBeTruthy();
+
+        const found = cart.items.some((item:any) => item.id === variantId);
+        expect(found, 'Expected cart to include variant id ${variantId').toBeTruthy();
+
+        const clear2 = await request.post("/cart/clear.js");
+        expect(clear2.status(), "Expectd cleanup /cart/clear.js to succedd").toBe(200);
+
     })
 })
