@@ -21,5 +21,18 @@ test.describe("Shopify Ajax Cart API - change quantity", () => {
             form: { id: String(firstVariantId), quantity: "1"},
         });
         expect([200, 302]).toContain(addRes.status());
+
+        // 4) Get the line item key from /cart.js
+        const cart1Res = await request.get("/cart.js");
+        expect(cart1Res.status()).toBe(200);
+
+        const cart1 = await cart1Res.json();
+        expect(cart1.items.length).toBeGreaterThan(0);
+
+        // Find the lie number (1-indexed) for our variant
+        const idx = cart1.items.findIndex((it: any) => it.id === firstVariantId);
+        expect(idx, 'Expected variant ${firstVariantID} to exist in cart before change. ').toBeGreaterThanOrEqual(0);
+
+        const lineNumber = idx + 1;
     })
 })
