@@ -34,5 +34,14 @@ test.describe("Shopify Ajax Cart API - change quantity", () => {
         expect(idx, 'Expected variant ${firstVariantID} to exist in cart before change. ').toBeGreaterThanOrEqual(0);
 
         const lineNumber = idx + 1;
+
+        // 5) Change quantity to 2 via /cart/change.js
+        const changeRes = await request.post("/cart/change.js", {
+            form: {line: String(lineNumber), quantity:"2"},
+        });
+
+        expect(changeRes.status(), "Expected /cart/change.js to return 200").toBe(200);
+
+        
     })
 })
