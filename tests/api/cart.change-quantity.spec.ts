@@ -42,6 +42,18 @@ test.describe("Shopify Ajax Cart API - change quantity", () => {
 
         expect(changeRes.status(), "Expected /cart/change.js to return 200").toBe(200);
 
-        
+        // 6) Verify new quantity in cart
+        const cart2Res = await request.get("/cart.js");
+        expect(cart2Res.status()).toBe(200);
+
+        const cart2 = await cart2Res.json();
+        const updated = cart2.items.find((it:any) => it.id === firstVariantId);
+
+        expect(updated, `Expected variant ${firstVariantId} to remain in cart after quantity change.`).toBeTruthy();
+        expect(updated.quantity, "Expected quantity to be updated to 2.").toBe(2);
+
+        // Cleanup
+        const clear2 = await request.post("/cart/clear.js");
+        expect(clear2.status(), "Expected cleanup /cart/clear.js to succed").toBe(200);
     })
 })
