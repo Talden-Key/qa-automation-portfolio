@@ -18,6 +18,13 @@ async function postWithBackoff(request: any, url: string, retries = 3) {
 
 test.describe("Shopify Ajax Cart API - Clear Cart", () => {
     test("POST /cart/clear.js empties the cart", async ({ request }) => {
+        // Clear the cart (handle rate limits)
+        const clearRes = await postWithBackoff(request, "/cart/clear.js");
+
+        expect(
+            clearRes.status(),
+            "Expected /cart/clear.js to succed (200)."
+        ).toBe(200);
         
     })
 })
