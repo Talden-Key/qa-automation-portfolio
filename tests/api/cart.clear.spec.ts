@@ -25,7 +25,16 @@ test.describe("Shopify Ajax Cart API - Clear Cart", () => {
             clearRes.status(),
             "Expected /cart/clear.js to succed (200)."
         ).toBe(200);
-        
+
+        // Verify cart state via /cart.js
+        const cartRes = await request.get("/cart.js");
+        expect(cartRes.status(), "Expected /cart.js to return 200.").toBe(200);
+
+        const cart = await cartRes.json();
+
+        expect( cart.item_count, "Expected cart.item_count to be 0 after clearing.").toBe(0);
+
+        expect( cart.item.length, "Expected cart.items array to be empty after clearing.").toBe(0);
     })
 })
 
