@@ -2,6 +2,18 @@ import {test, expect } from "@playwright/test";
 
 test.describe("Shopify Product JSON API", () => {
     test("GET /products/<handle>.js returns product data and variants", async ({request}) => {
+        const productsRes = await request.get("/collections/all/products.json?limit=10");
+        expect(productsRes.status(), "Expected collection products JSON to return 200.").toBe(200);
+
+        const productsJson = await productsRes.json();
+        expect(Array.isArray(productsJson.products), "Expected products array.").toBeTruthy();
+        expect(productsJson.products.length, "Expected at least one product.").toBeGreaterThan(0);
         
+        const product = productsJson.products[0];
+        const handle: string = product.handle;
+
+        expect(typeof handle, "Expected products handle to be a string.").toBe("string");
+        expect(handle.length, "Expected non-empty product handle.").toBeGreaterThan(0);
+
     })
 } )
