@@ -15,5 +15,9 @@ test.describe("Shopify Product JSON API", () => {
         expect(typeof handle, "Expected products handle to be a string.").toBe("string");
         expect(handle.length, "Expected non-empty product handle.").toBeGreaterThan(0);
 
+
+    // 2) Fetch the product JSON by handle
+    const productRes = await request.get(`/products/${handle}.js`);
+    expect(productRes.status(), `Expected /products/${handle}.js to return 200.`).toBe(200);
     })
 } )
