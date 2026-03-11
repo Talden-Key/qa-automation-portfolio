@@ -51,5 +51,16 @@ test.describe("Shopify Product JSON API", () => {
     expect(productJson.handle, "Expected returned handle to match requested handle.").toBe(handle);
     expect(Array.isArray(productJson.variants), "Expected variants to be an array.").toBeTruthy();
     expect(productJson.variants.length, "Expected at least one variant.").toBeGreaterThan(0);
+
+    // 4) Assert first variant has basic availability-related fields
+    const firstVariant = productJson.variants[0];
+
+    expect(firstVariant).toHaveProperty("id");
+    expect(firstVariant).toHaveProperty("title");
+    expect(firstVariant).toHaveProperty("available");
+
+    expect(typeof firstVariant.id, "Expected variant id to be a number.").toBe("number");
+    expect(typeof firstVariant.title, "Expected variant title to be a string.").toBe("string");
+    expect(typeof firstVariant.available, "Expected variant available to be boolean.").toBe("boolean");
   });
 });
