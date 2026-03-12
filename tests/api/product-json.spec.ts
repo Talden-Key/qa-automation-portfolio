@@ -63,4 +63,9 @@ test.describe("Shopify Product JSON API", () => {
     expect(typeof firstVariant.title, "Expected variant title to be a string.").toBe("string");
     expect(typeof firstVariant.available, "Expected variant available to be boolean.").toBe("boolean");
   });
+  test.describe("Collection products JSON API", () => {
+    test("GET /collections/all/products.json returns a products[] payload", async ({ request }) => {
+      
+    })
+  })
 });
