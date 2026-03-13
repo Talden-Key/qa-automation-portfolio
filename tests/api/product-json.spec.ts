@@ -65,7 +65,23 @@ test.describe("Shopify Product JSON API", () => {
   });
   test.describe("Collection products JSON API", () => {
     test("GET /collections/all/products.json returns a products[] payload", async ({ request }) => {
-      
+      const response = await request.get("/collections/all/products.json?limit=10");
+
+      expect(
+        response.status(),
+        "Expected /collections/all/products.json to return HTTP 200."
+      ).toBe(200);
+      const body = await response.json();
+
+      expect(body).toHaveProperty("products");
+      expect(Array.isArray(body.products),
+      "Expected products to be an array."
+    ).toBeTruthy();
+
+    expect(
+      body.products.length,
+      "Expected at least one product in the collection payload."
+    ).toBeGreaterThan(0);
     })
   })
 });
