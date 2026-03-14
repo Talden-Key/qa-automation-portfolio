@@ -82,6 +82,19 @@ test.describe("Shopify Product JSON API", () => {
       body.products.length,
       "Expected at least one product in the collection payload."
     ).toBeGreaterThan(0);
+
+    // Light contract checks on the first product
+    const firstProduct = body.products[0];
+
+    expect(firstProduct).toHaveProperty("id");
+    expect(firstProduct).toHaveProperty("title");
+    expect(firstProduct).toHaveProperty("handle");
+    expect(firstProduct).toHaveProperty("variant");
+
+    expect(typeof firstProduct.id).toBe("number");
+    expect(typeof firstProduct.title).toBe("string");
+    expect(typeof firstProduct.handle).toBe("string");
+    expect(Array.isArray(firstProduct.variants)).toBeTruthy();
     })
   })
 });
