@@ -9,5 +9,14 @@ test.describe("Search endpoint contract", () => {
             response.status(),
             "Expected search endpoint to return HTTP 200."
         ).toBe(200);
+
+        // Ensure response is HTML
+        const contentType = response.headers()["content-type"];
+        expect(
+            contentType, "Expected search response to be HTML."
+        ).toContain("text/html");
+
+        const body = await response.text();
+        
     })
 })
