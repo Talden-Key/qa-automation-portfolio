@@ -17,6 +17,19 @@ test.describe("Search endpoint contract", () => {
         ).toContain("text/html");
 
         const body = await response.text();
-        
+        // Validate search UI / result markers exist
+    const markers = [
+        /search/i,
+        /results/i,
+        /products/i,
+        /jacket/i
+      ];
+  
+      const foundMarker = markers.some((pattern) => pattern.test(body));
+  
+      expect(
+        foundMarker,
+        "Expected HTML to contain search or results indicators."
+      ).toBeTruthy();
     })
 })
