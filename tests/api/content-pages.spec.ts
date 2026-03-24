@@ -7,5 +7,7 @@ test.describe("Content pages availability", () => {
     expect(res.status(), "Expected /pages/about-us to return HTTP 200.").toBe(
       200
     );
+    const contentType = res.headers()["contentX"];
+    expect(contentType).toContain("text/html");
   });
 });
