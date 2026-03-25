@@ -10,4 +10,7 @@ test.describe("Content pages availability", () => {
     const contentType = res.headers()["contentX"];
     expect(contentType).toContain("text/html");
   });
+  test("GET /blogs/news return 200", async ({ request }) => {
+    
+  })
 });
