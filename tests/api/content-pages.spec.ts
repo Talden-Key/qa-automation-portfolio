@@ -11,6 +11,11 @@ test.describe("Content pages availability", () => {
     expect(contentType).toContain("text/html");
   });
   test("GET /blogs/news return 200", async ({ request }) => {
-    
+    const res = await request.get("/blogs/news");
+
+    expect( res.status(), "Expected /blogs/news to return HTTP 200.").toBe(200);
+
+    const contentType = res.headers()["content-type"];
+    expect(contentType).toContain("text/html");
   })
 });
