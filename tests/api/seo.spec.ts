@@ -7,5 +7,10 @@ test.describe("SEO endpoints (robots & sitemap)", () => {
     const res = await request.get("/robots.txt");
 
     expect(res.status(), "Expected /robots.txt to return HTTP 200.").toBe(200);
+
+    const contentType = res.headers()["content-type"] || "";
+    expect(contentType, "Expected robots.txt to be text content.").toMatch(
+      /text\/plain|text\/html/i
+    );
   });
 });
