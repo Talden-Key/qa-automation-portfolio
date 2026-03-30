@@ -13,4 +13,7 @@ test.describe("SEO endpoints (robots & sitemap)", () => {
       /text\/plain|text\/html/i
     );
   });
+  test("GET /sitemap.xml returns 200 and valid XML content", async( {request})=> {
+    const res = await request.get("/sitemap.xml");
+  })
 });
