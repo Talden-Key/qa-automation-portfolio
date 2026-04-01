@@ -19,5 +19,9 @@ test.describe("SEO endpoints (robots & sitemap)", () => {
     const res = await request.get("/sitemap.xml");
 
     expect(res.status(), "Expected /sitemap.xml to return HTTP 200.").toBe(200);
+
+    const contentType = res.headers()["content-type"] || "";
+
+    expect( contentType, "Expected sitemap to be XML.").toMatch(/xml/i);
   });
 });
