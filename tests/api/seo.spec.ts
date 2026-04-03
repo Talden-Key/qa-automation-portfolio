@@ -22,12 +22,13 @@ test.describe("SEO endpoints (robots & sitemap)", () => {
 
     const contentType = res.headers()["content-type"] || "";
 
-    expect( contentType, "Expected sitemap to be XML.").toMatch(/xml/i);
-    
+    expect(contentType, "Expected sitemap to be XML.").toMatch(/xml/i);
+
     const body = await res.text();
 
     expect(
-      body, "Expected sitemap to contain <urlset> or <sitemapindex>.").toMatch(/urlset|<sitemapindex/i);
-  
+      body,
+      "Expected sitemap to contain <urlset> or <sitemapindex>."
+    ).toMatch(/urlset|<sitemapindex/i);
   });
 });
