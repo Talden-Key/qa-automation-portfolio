@@ -8,5 +8,9 @@ test.describe("Navigation consistency", ()=> {
         await expect(page).toHaveURL(/\search/i);
         await expect(page.getByRole("textbox", { name: /search/i})).toBeVisible();
 
+        await page.goto("/");
+        await page.getByRole("link", { name: /about us/i }).first().click();
+        await expect(page).toHaveURL(/\/pages\/about-us/i);
+        await expect(page.getByText(/about us/i).first()).toBeVisible();
     })
 })
