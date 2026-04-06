@@ -12,5 +12,12 @@ test.describe("Navigation consistency", ()=> {
         await page.getByRole("link", { name: /about us/i }).first().click();
         await expect(page).toHaveURL(/\/pages\/about-us/i);
         await expect(page.getByText(/about us/i).first()).toBeVisible();
+
+        await page.goto("/");
+        await page.getByRole("link", { name: /blog/i }).first().click();
+        await expect(page).toHaveURL(/\blogs\/news/i);
+        await expect(page.getByText(/blog|news/i).first()).toBeVisible();
+
+
     })
 })
