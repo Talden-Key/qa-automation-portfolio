@@ -18,6 +18,11 @@ test.describe("Navigation consistency", ()=> {
         await expect(page).toHaveURL(/\blogs\/news/i);
         await expect(page.getByText(/blog|news/i).first()).toBeVisible();
 
+        await page.goto("/");
+        await page.getByRole("link", { name: /catalog/i }).first().click();
+        await expect(page).toHaveURL(/\/collections\/all/i);
 
+        const producLinks = page.locator('a[href*="/products/"]');
+        await expect(producLinks.first()).toBeVisible();
     })
 })
