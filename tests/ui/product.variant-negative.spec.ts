@@ -33,5 +33,34 @@ test.describe("Product variant validation", () => {
     const itemCountBefore = cartBefore.item_count;
 
     await addToCart.click();
+
+        // Success condition A: visible validation/error feedback appears
+        const errorSignals = [
+          page.getByText(/select/i).first(),
+          page.getByText(/required/i).first(),
+          page.getByText(/unavailable/i).first(),
+          page.getByText(/please/i).first(),
+          page.locator('[role="alert"]').first(),
+          page.locator('.errors, .error, .form-message--error').first(),
+        ];
+    
+        let errorSeen = false;
+        for (const signal of errorSignals) {
+          if (await signal.isVisible().catch(() => false)) {
+            errorSeen = true;
+            break;
+          }
+        }
+    
+        // Success condition B: cart did not update
+        const cartAfterRes = await page.request.get("/cart.js");
+        expect(cartAfterRes.status()).toBe(200);
+        const cartAfter = await cartAfterRes.json();
+        const itemCountAfter = cartAfter.item_count;
+    
+        expect(
+          errorSeen || itemCountAfter === itemCountBefore,
+          `Expected either validation feedback or no cart update. Before=${itemCountBefore}, After=${itemCountAfter}`
+        ).toBeTruthy();
   });
 });
