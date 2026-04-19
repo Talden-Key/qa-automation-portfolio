@@ -34,5 +34,24 @@ test.describe("Cart quantity update", () => {
     ]);
 
     await page.goto("/cart", { waitUntil: "domcontentloaded" });
+
+    const qtyInputs = page.locator('input[name="update[]"], input[id^="updates_"]');
+    const qtyCount = await qtyInputs.count();
+
+    for (let i = 0; i < qtyCount; i++) {
+        await qtyInputs.nth(i).evaluate((el:HTMLInputElement) => {
+            el.value = "1";
+            el.dispatchEvent(new Event("input", { bubbles: true}));
+            el.dispatchEvent(new Event("change", { bubbles: true}));
+        })
+    }
+
+    for (let i = 0; i < qtyCount; i++) {
+        await qtyInputs.nth(i).evaluate((el: HTMLInputElement) => {
+          el.value = "2";
+          el.dispatchEvent(new Event("input", { bubbles: true }));
+          el.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+      }
   });
 });
