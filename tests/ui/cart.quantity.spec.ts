@@ -35,23 +35,40 @@ test.describe("Cart quantity update", () => {
 
     await page.goto("/cart", { waitUntil: "domcontentloaded" });
 
-    const qtyInputs = page.locator('input[name="update[]"], input[id^="updates_"]');
+    const qtyInputs = page.locator(
+      'input[name="update[]"], input[id^="updates_"]'
+    );
     const qtyCount = await qtyInputs.count();
 
     for (let i = 0; i < qtyCount; i++) {
-        await qtyInputs.nth(i).evaluate((el:HTMLInputElement) => {
-            el.value = "1";
-            el.dispatchEvent(new Event("input", { bubbles: true}));
-            el.dispatchEvent(new Event("change", { bubbles: true}));
-        })
+      await qtyInputs.nth(i).evaluate((el: HTMLInputElement) => {
+        el.value = "1";
+        el.dispatchEvent(new Event("input", { bubbles: true }));
+        el.dispatchEvent(new Event("change", { bubbles: true }));
+      });
     }
 
     for (let i = 0; i < qtyCount; i++) {
-        await qtyInputs.nth(i).evaluate((el: HTMLInputElement) => {
-          el.value = "2";
-          el.dispatchEvent(new Event("input", { bubbles: true }));
-          el.dispatchEvent(new Event("change", { bubbles: true }));
-        });
-      }
+      await qtyInputs.nth(i).evaluate((el: HTMLInputElement) => {
+        el.value = "2";
+        el.dispatchEvent(new Event("input", { bubbles: true }));
+        el.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+    }
+    const updateBtn = page
+      .locator('input[name="update"], button[name="update"], #update')
+      .first();
+    await expect(
+      updateBtn,
+      'Expected an "Update" control on cart page.'
+    ).toBeVisible({ timeout: 15000 });
+    await updateBtn.click();
+
+    await page.goto("/cart", { waitUntil: "domcontentloaded" });
+
+    const updatedQtyInputs = page.locator(
+      'input[name="updates[]"], input[id^="updates_"]'
+    );
+    const updatedCount = await updatedQtyInputs.count();
   });
 });
