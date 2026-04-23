@@ -71,17 +71,23 @@ test.describe("Cart quantity update", () => {
     );
     const updatedCount = await updatedQtyInputs.count();
 
-    expect(updatedCount, "Expected quantity inputs to remain after quantity update.").toBeGreaterThan(0);
+    expect(
+      updatedCount,
+      "Expected quantity inputs to remain after quantity update."
+    ).toBeGreaterThan(0);
 
     for (let i = 0; i < updatedCount; i++) {
-        const value = await updatedQtyInputs.nth(i).inputValue();
-        expect(value, `Expected quantity input ${i} to have value 2.`).toBe("2");
+      const value = await updatedQtyInputs.nth(i).inputValue();
+      expect(value, `Expected quantity input ${i} to have value 2.`).toBe("2");
     }
 
     const cartRes = await page.request.get("/cart.js");
     expect(cartRes.status()).toBe(200);
 
     const cart = await cartRes.json();
-    expect(cart.item_count, "Expected cart item_count to be 2 after quantity update.").toBe(2);
+    expect(
+      cart.item_count,
+      "Expected cart item_count to be 2 after quantity update."
+    ).toBe(2);
   });
 });
