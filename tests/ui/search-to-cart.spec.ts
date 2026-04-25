@@ -26,5 +26,24 @@ test.describe("Search -> Product -> Cart", () => {
     ).toBeVisible();
 
     await productResults.first().click();
+
+    const productTitle = page.locator('h1[itemprop="name"]');
+    await expect(productTitle, "Expected product title on PDP.").toBeVisible();
+
+    const addToCart = page.getByRole("button", { name: /add to cart/i });
+    await expect(adToCart, "Expected Add to Cart button on PDP.").toBeVisible();
+
+    await Promise.all([
+      page
+        .waitForResponse(
+          (r) =>
+            r.url().includes("/cart/add") &&
+            r.status() >= 200 &&
+            r.status() < 400,
+          { timeout: 15000 }
+        )
+        .catch(() => null),
+      addToCart.click(),
+    ]);
   });
 });
