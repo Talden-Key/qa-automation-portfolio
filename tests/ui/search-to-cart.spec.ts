@@ -31,7 +31,10 @@ test.describe("Search -> Product -> Cart", () => {
     await expect(productTitle, "Expected product title on PDP.").toBeVisible();
 
     const addToCart = page.getByRole("button", { name: /add to cart/i });
-    await expect(adToCart, "Expected Add to Cart button on PDP.").toBeVisible();
+    await expect(
+      addToCart,
+      "Expected Add to Cart button on PDP."
+    ).toBeVisible();
 
     await Promise.all([
       page
@@ -45,5 +48,15 @@ test.describe("Search -> Product -> Cart", () => {
         .catch(() => null),
       addToCart.click(),
     ]);
+
+    await page.goto("/cart", { waitUntil: "domcontentloaded" });
+
+    const qtyInputs = page.locator(
+      'input[name="updates[]"], input[id^="updates_"]'
+    );
+    expect(
+      await qtyInputs.count(),
+      "Expected cart to contain at least one line item after add-to-cart."
+    ).toBeGreaterThan(0);
   });
 });
