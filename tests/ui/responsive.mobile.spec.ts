@@ -48,5 +48,24 @@ test.describe("Responsive sanity - mobile", () => {
         "Expected header navigation links to be visible on mobile."
       ).toBeVisible();
     }
+
+    // Cart Acess
+    // Common signals: "My Cart", "cart", or a checkout link pointing to /cart
+    const cartLinkCandidates = [
+      page.getByRole("link", { name: /my cart|cart/i }),
+      page.locator('a[href*=" /cart"]').first(),
+    ];
+
+    let cartLink: ReturnType<typeof page.locator> | null = null;
+
+    for (const c of cartLinkCandidates) {
+        if (await c.first().isVisible().catch(() => false)) {
+            cartLink = c.first();
+            break;
+        }
+    }
+    expect(cartLink, "Expected a visible cart access point on mobile.").not.toBeNull();
+
+    await cartLink?.click();
   });
 });
