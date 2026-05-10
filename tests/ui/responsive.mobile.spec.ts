@@ -59,13 +59,44 @@ test.describe("Responsive sanity - mobile", () => {
     let cartLink: ReturnType<typeof page.locator> | null = null;
 
     for (const c of cartLinkCandidates) {
-        if (await c.first().isVisible().catch(() => false)) {
-            cartLink = c.first();
-            break;
-        }
+      if (
+        await c
+          .first()
+          .isVisible()
+          .catch(() => false)
+      ) {
+        cartLink = c.first();
+        break;
+      }
     }
-    expect(cartLink, "Expected a visible cart access point on mobile.").not.toBeNull();
+    expect(
+      cartLink,
+      "Expected a visible cart access point on mobile."
+    ).not.toBeNull();
 
-    await cartLink?.click();
+    await cartLink!.click();
+
+    // Assert we reached the cart page
+    await expect(page).toHaveURL(/\/cart/i);
+
+    // Assert cart page renders (empty or not)
+    const cartSignals = [
+      page.getByText(/your cart|cart/i).first(),
+      page.locator('input[name="updates[]"], input[id^="updates_"]').first(), // line items if present
+      page.getByText(/check out/i).first(), // checkout control (may be hidden in some themes)
+    ];
+
+    let cartRendered = false;
+    for (const s of cartSignals) {
+      if (await s.isVisible().catch(() => false)) {
+        cartRendered = true;
+        break;
+      }
+    }
+
+    expect(
+      cartRendered,
+      "Expected cart page to render on mobile."
+    ).toBeTruthy();
   });
 });
